@@ -1,10 +1,10 @@
 # Fake Job Posting Detection
 
-Classifies job postings as fake or genuine from company profile, description and requirements text (TF-IDF + Random Forest), with a Streamlit UI.
+Classifies job postings as fake or genuine from company profile, description and requirements text (TF-IDF + calibrated logistic regression), with a Streamlit UI.
 
 ## Setup
 ```
-pip install -r requirements.txt
+pip install -r ../requirements.txt   # requirements.txt lives at the repo root
 # extract fake_job_postings.csv from csvzip.rar (e.g. `bsdtar -xf csvzip.rar`)
 python train.py fake_job_postings.csv   # writes model.joblib and metrics.json
 streamlit run app.py          # new UI
