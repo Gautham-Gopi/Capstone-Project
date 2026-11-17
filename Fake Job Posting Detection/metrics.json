@@ -1,39 +1,77 @@
 {
-  "logistic_regression": {
-    "threshold": 0.2965374873353597,
-    "precision_fake": 0.8551401869158879,
-    "recall_fake": 0.8472222222222222,
-    "f1_fake": 0.8511627906976745,
-    "roc_auc": 0.9875389611520313,
-    "pr_auc": 0.916188191579408,
-    "confusion_matrix": [
-      [
-        4223,
-        31
-      ],
-      [
-        33,
-        183
-      ]
+  "threshold": 0.27627525252525253,
+  "beta": 2.0,
+  "precision_fake": 0.8251121076233184,
+  "recall_fake": 0.8518518518518519,
+  "f1_fake": 0.8382687927107063,
+  "roc_auc": 0.9858945393442337,
+  "pr_auc": 0.9154346760493847,
+  "confusion_matrix": [
+    [
+      4215,
+      39
+    ],
+    [
+      32,
+      184
     ]
-  },
-  "random_forest": {
-    "threshold": 0.3280204085592116,
-    "precision_fake": 0.7630331753554502,
-    "recall_fake": 0.7453703703703703,
-    "f1_fake": 0.7540983606557377,
-    "roc_auc": 0.9857617667032336,
-    "pr_auc": 0.8577629795532822,
-    "confusion_matrix": [
-      [
-        4204,
-        50
-      ],
-      [
-        55,
-        161
-      ]
-    ]
-  },
-  "selected": "logistic_regression"
+  ],
+  "sweep": [
+    {
+      "threshold": 0.1,
+      "precision": 0.6483870967741936,
+      "recall": 0.9305555555555556,
+      "false_alarms": 109,
+      "missed_fakes": 15
+    },
+    {
+      "threshold": 0.15,
+      "precision": 0.7293233082706767,
+      "recall": 0.8981481481481481,
+      "false_alarms": 72,
+      "missed_fakes": 22
+    },
+    {
+      "threshold": 0.2,
+      "precision": 0.7974683544303798,
+      "recall": 0.875,
+      "false_alarms": 48,
+      "missed_fakes": 27
+    },
+    {
+      "threshold": 0.25,
+      "precision": 0.8149779735682819,
+      "recall": 0.8564814814814815,
+      "false_alarms": 42,
+      "missed_fakes": 31
+    },
+    {
+      "threshold": 0.3,
+      "precision": 0.8425925925925926,
+      "recall": 0.8425925925925926,
+      "false_alarms": 34,
+      "missed_fakes": 34
+    },
+    {
+      "threshold": 0.35,
+      "precision": 0.8660287081339713,
+      "recall": 0.8379629629629629,
+      "false_alarms": 28,
+      "missed_fakes": 35
+    },
+    {
+      "threshold": 0.4,
+      "precision": 0.8910891089108911,
+      "recall": 0.8333333333333334,
+      "false_alarms": 22,
+      "missed_fakes": 36
+    },
+    {
+      "threshold": 0.5,
+      "precision": 0.9382022471910112,
+      "recall": 0.7731481481481481,
+      "false_alarms": 11,
+      "missed_fakes": 49
+    }
+  ]
 }

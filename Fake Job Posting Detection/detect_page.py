@@ -3,7 +3,7 @@ from pathlib import Path
 import joblib
 import streamlit as st
 
-from text_utils import clean_text
+from scoring import build_text, score
 
 MODEL_PATH = Path(__file__).parent / "model.joblib"
 
@@ -27,15 +27,16 @@ def show_detect_page():
     if not st.button("Detect"):
         return
 
-    text = clean_text(" ".join([company_description, job_description, job_requirements]))
+    raw, text = build_text(company=company_description, description=job_description,
+                         requirements=job_requirements)
     if not text.strip():
         st.warning("Please enter some text so there is something to classify.")
         return
 
     bundle = load_model()
-    fake_prob = float(bundle["pipeline"].predict_proba([text])[0][1])
+    fake_prob, threshold, _ = score(bundle, text, raw)
 
-    if fake_prob >= bundle["threshold"]:
+    if fake_prob >= threshold:
         st.error("Fake Job Posting")
     else:
         st.success("Genuine Job Posting")

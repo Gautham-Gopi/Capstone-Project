@@ -39,3 +39,20 @@ def clean_text(text):
     tokens = _TOKENIZER.tokenize(text)
     tokens = [_LEMMATIZER.lemmatize(_STEMMER.stem(t)) for t in tokens]
     return " ".join(t for t in tokens if t not in _STOPWORDS)
+
+
+def is_probably_english(text, min_words=15, threshold=0.5):
+    """False only when the text is clearly another language.
+
+    Language detection is unreliable on very short or jargon-only text, so postings shorter than
+    `min_words` words are never rejected, and any detection failure fails open (returns True).
+    """
+    if len(re.findall(r"[^\W\d_]+", text)) < min_words:
+        return True
+    try:
+        from langdetect import DetectorFactory, detect_langs
+        DetectorFactory.seed = 0  # deterministic results
+        en_prob = next((l.prob for l in detect_langs(text) if l.lang == "en"), 0.0)
+        return en_prob >= threshold
+    except Exception:
+        return True
