@@ -1,7 +1,11 @@
-import streamlit as st
-import numpy as np
+import json
+from pathlib import Path
+
 import pandas as pd
+import streamlit as st
 from PIL import Image
+
+HERE = Path(__file__).parent
 
 
 def show_explore_page():
@@ -144,52 +148,59 @@ def show_explore_page():
     st.markdown('''
     <br>
     ''',unsafe_allow_html=True)
-    bar = Image.open('bar.jpg')
+    bar = Image.open(HERE / 'bar.jpg')
     st.image(bar)
     st.markdown('''
     <br>
     <br>
     ''',unsafe_allow_html=True)
-    pair = Image.open('pair.jpg')
+    pair = Image.open(HERE / 'pair.jpg')
     st.image(pair)
     st.markdown('''
     <br>
     <br>
     ''',unsafe_allow_html=True)
-    heatmap = Image.open('heatmap.jpg')
+    heatmap = Image.open(HERE / 'heatmap.jpg')
     st.image(heatmap,width=750)
     st.markdown('''
     <br>
     <br>
     ''',unsafe_allow_html=True)
-    ratio = Image.open('fake-to-real-ratio.jpg')
+    ratio = Image.open(HERE / 'fake-to-real-ratio.jpg')
     st.image(ratio)
     st.markdown('''
     <br>
     <h2> Selection Of Algorithm:</h2>
+    <p>The confusion matrices below come from the original notebook run (resampling before the split, so optimistic). See the table underneath for the corrected hold-out metrics.</p>
     <br>
     ''',unsafe_allow_html=True)
-    rfc = Image.open('rfc.jpg')
+    rfc = Image.open(HERE / 'rfc.jpg')
     st.image(rfc,caption="Random Forest Confusion Matrix")
     st.markdown('''
     <br>
     <br>
     ''',unsafe_allow_html=True)
-    xgb = Image.open('xgb.jpg')
+    xgb = Image.open(HERE / 'xgb.jpg')
     st.image(xgb,caption="XG Boost Confusion Matrix")
     st.markdown('''
     <br>
     <br>
     ''',unsafe_allow_html=True)
-    knn = Image.open('knn.jpg')
+    knn = Image.open(HERE / 'knn.jpg')
     st.image(knn,caption="KNN Confusion Matrix")
     st.markdown('''
     <br>
     <br>
     ''',unsafe_allow_html=True)
-    nb = Image.open('nb.jpg')
+    nb = Image.open(HERE / 'nb.jpg')
     st.image(nb,caption="Naive Bayes Confusion Matrix")
-    st.markdown('''
-    <h3>Thus from observing the Confusion Matrices it is clear that Random Forest Classifier is the best algorithm for the data.</h3>
-    ''',unsafe_allow_html=True)
-
+    metrics_path = Path(__file__).parent / "metrics.json"
+    if metrics_path.exists():
+        metrics = json.loads(metrics_path.read_text())
+        selected = metrics.pop("selected")
+        rows = {name: {k: v for k, v in m.items() if k != "confusion_matrix"}
+                for name, m in metrics.items()}
+        st.subheader("Hold-out results (stratified 25% test set, class weights instead of resampling; threshold tuned on training data only)")
+        st.dataframe(pd.DataFrame(rows).T.round(3))
+        st.markdown(f"**Selected model: {selected.replace('_', ' ').title()}** (highest PR-AUC; "
+                    "accuracy is misleading on a ~5% positive class).")

@@ -1,0 +1,9 @@
+streamlit>=1.50
+pandas>=2.0
+# model.joblib is a pickle: scikit-learn/numpy/scipy/joblib must match the versions it was trained with
+scikit-learn==1.9.1
+numpy==2.4.1
+scipy==1.18.1
+joblib==1.6.0
+nltk>=3.8
+pillow>=10
